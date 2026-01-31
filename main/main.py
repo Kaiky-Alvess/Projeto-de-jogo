@@ -25,7 +25,7 @@ pygame.display.set_caption("Jogo")
 
 janela=pygame.display.set_mode((largura,altura))
 relogio=pygame.time.Clock()
-while not pygame.mixer.music.get_busy():
+while pygame.mixer.music.get_busy():
     janela.fill((0,0,0))
     relogio.tick(240)
     mensagem= f'Pontos: {pontuacao}'
