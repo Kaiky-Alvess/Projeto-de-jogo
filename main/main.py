@@ -25,13 +25,13 @@ pygame.display.set_caption("Jogo")
 
 janela=pygame.display.set_mode((largura,altura))
 relogio=pygame.time.Clock()
-while True:
+while not pygame.mixer.music.get_busy():
     janela.fill((0,0,0))
     relogio.tick(240)
     mensagem= f'Pontos: {pontuacao}'
-    game_over= f'Fim de jogo'
+
     texto= fonte.render(mensagem, True, (255,255,255), (0,0,0))
-    texto_final= fonte.render(game_over, True, (255,255,255), (0,0,0))
+
 
 
     nota = pygame.draw.rect(janela, (0, 255, 0), (x_verde, y_verde, 40, 40))
@@ -62,5 +62,21 @@ while True:
     janela.blit(texto, (600, 20))
 
     pygame.display.update()
+while True:
+    janela.fill((0, 0, 0))
+    relogio.tick(240)
+    mensagem= f'Pontuação final: {pontuacao}'
+    game_over = f'Fim de jogo'
 
+    texto_final = fonte.render(game_over, True, (255, 255, 255), (0, 0, 0))
+    texto= fonte.render(mensagem, True, (255, 255, 255), (0, 0, 0))
 
+    janela.blit(texto_final, (largura/2-100, altura/2-100,))
+    janela.blit(texto, (largura/2-145, altura/2-50))
+
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            exit()
+
+    pygame.display.update()
