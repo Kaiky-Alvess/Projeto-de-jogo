@@ -14,6 +14,12 @@ Sistema para fazer as notas cairem infinitamente enquanto a música estiver toca
 
 Oque falta para completar:
 
+*Criar um menu interativo
+
 *Fazer as notas cairem no ritmo da musica
 
-*Adicionar mais teclas para o jogador não ficar apenas com uma tecla 
+*Adicionar mais músicas
+
+*Adicionar mais opções de teclas para o jogador 
+
+
