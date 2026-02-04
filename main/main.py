@@ -9,40 +9,53 @@ from pygame.sprite import collide_rect
 pygame.init()
 
 
-
+#proporção da tela
 largura=800
 altura=600
+
+#dados do cubo
 x_verde=240
 y_verde=0
 
-
+#fonte das mensagens
 fonte=pygame.font.SysFont('comicsans', 30)
 
+#Pontuação no jogo
 pontuacao=0
 
 
 
-
+#Geração de peças infinitas
 proxima_aparicao=randint(10,50)
 
+#Janela
 pygame.display.set_caption("Jogo")
-
 janela=pygame.display.set_mode((largura,altura))
-relogio=pygame.time.Clock()
-menu= True
 
-while menu==True:
+#Variavel que receberá os fps do jogo
+relogio=pygame.time.Clock()
+
+#Estado em que se encontra o jogo menu/play/fim de jogo
+estado= 'menu_principal'
+
+#Loop principal
+while estado=='menu_principal':
+    #preencimento da tela
     janela.fill((0,0,0))
+
+    #frames por segundo
     relogio.tick(240)
+
+    #botões de start e sair
     clique_start=pygame.Rect(350,200,100,40)
     clique_sair=pygame.Rect(350,260,100,40)
-
     comeco=f'Start'
     texto_comeco=fonte.render(comeco, True, (255, 255, 255), (0, 0, 0))
 
-
+    #pegar a posição do mouse para inserir clicks
     posicao_mouse=pygame.mouse.get_pos()
 
+    #colisão sobre os botões
     if clique_start.collidepoint(posicao_mouse):
         start = fonte.render('Start', True, (155, 155, 155))
     else:
@@ -53,81 +66,98 @@ while menu==True:
     else:
         sair = fonte.render('Sair', True, (255, 255, 255))
 
+    #mostrar botões
     texto_start_rect = start.get_rect(center=clique_start.center)
     janela.blit(start, texto_start_rect)
 
     texto_sair_rect = sair.get_rect(center=clique_sair.center)
     janela.blit(sair, texto_sair_rect)
 
+    #Verificador de eventos e de clicks
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
         if event.type == MOUSEBUTTONDOWN:
             if event.button == 1:
                 if clique_start.collidepoint(event.pos):
-                    menu=False
+                    estado='play'
                 elif clique_sair.collidepoint(event.pos):
                     pygame.quit()
+
+    #update da tela
     pygame.display.update()
 
-pygame.mixer.music.set_volume(0.1)
-pygame.mixer.music.load('../sons/Thunderstruck.mp3')
-pygame.mixer.music.play()
-barulho_acerto= pygame.mixer.Sound('../sons/coin.wav')
+    #Loop da música
+    if estado=='play':
+        pygame.mixer.music.set_volume(0.1)
+        pygame.mixer.music.load('../sons/Thunderstruck.mp3')
+        pygame.mixer.music.play()
+        barulho_acerto= pygame.mixer.Sound('../sons/coin.wav')
+
+        #Enquanto estiver tocando a música
+        while pygame.mixer.music.get_busy():
+            #limpar a tela
+            janela.fill((0,0,0))
+
+            #fps
+            relogio.tick(240)
+
+            #Texto de pontuação
+            mensagem= f'Pontos: {pontuacao}'
+
+            texto= fonte.render(mensagem, True, (255,255,255), (0,0,0))
 
 
-while pygame.mixer.music.get_busy():
-    janela.fill((0,0,0))
-    relogio.tick(240)
-    mensagem= f'Pontos: {pontuacao}'
+            #Notas e setas
+            nota = pygame.draw.rect(janela, (0, 255, 0), (x_verde, y_verde, 40, 40))
+            seta_verde = pygame.draw.rect(janela, (0, 255, 0), (x_verde, 540, 40, 40))
+            
 
-    texto= fonte.render(mensagem, True, (255,255,255), (0,0,0))
-
-
-
-    nota = pygame.draw.rect(janela, (0, 255, 0), (x_verde, y_verde, 40, 40))
-    seta_verde = pygame.draw.rect(janela, (0, 255, 0), (x_verde, 540, 40, 40))
-
-
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            exit()
-        if event.type == KEYDOWN:
-            if event.key == K_w:
-                if nota.colliderect(seta_verde):
-                    barulho_acerto.play()
-                    pontuacao += 1
-                    y_verde=0
-                    y_verde-=proxima_aparicao
-                else:
-                    pontuacao -= 1
-                    y_verde = 0 - proxima_aparicao
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    exit()
+                if event.type == KEYDOWN:
+                    if event.key == K_w:
+                        if nota.colliderect(seta_verde):
+                            barulho_acerto.play()
+                            pontuacao += 1
+                            y_verde=0
+                            y_verde-=proxima_aparicao
+                        else:
+                            pontuacao -= 1
+                            y_verde = 0 - proxima_aparicao
 
 
-    y_verde+=1
-    if y_verde>=600:
-        y_verde=0
-        pontuacao-=1
+            y_verde+=1
+            if y_verde>=600:
+                y_verde=0
+                pontuacao-=1
 
-    janela.blit(texto, (600, 20))
+            janela.blit(texto, (600, 20))
 
-    pygame.display.update()
-while True:
-    janela.fill((0, 0, 0))
-    relogio.tick(240)
-    mensagem= f'Pontuação final: {pontuacao}'
-    game_over = f'Fim de jogo'
+            pygame.display.update()
+    #Tela final
+    if not pygame.mixer.music.get_busy() and not estado=='menu_principal':
+        estado='fim_de_jogo'
+    if estado=='fim_de_jogo':
+        while estado=='fim_de_jogo':
+            #Limpar a tela
+            janela.fill((0, 0, 0))
+            relogio.tick(240)
+            #Textos de pontuação e fim de jogo
+            mensagem= f'Pontuação final: {pontuacao}'
+            game_over = f'Fim de jogo'
 
-    texto_final = fonte.render(game_over, True, (255, 255, 255), (0, 0, 0))
-    texto= fonte.render(mensagem, True, (255, 255, 255), (0, 0, 0))
+            texto_final = fonte.render(game_over, True, (255, 255, 255), (0, 0, 0))
+            texto= fonte.render(mensagem, True, (255, 255, 255), (0, 0, 0))
+            #Mostrar os textos
+            janela.blit(texto_final, (largura/2-100, altura/2-100,))
+            janela.blit(texto, (largura/2-145, altura/2-50))
 
-    janela.blit(texto_final, (largura/2-100, altura/2-100,))
-    janela.blit(texto, (largura/2-145, altura/2-50))
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    exit()
 
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            exit()
-
-    pygame.display.update()
+            pygame.display.update()
