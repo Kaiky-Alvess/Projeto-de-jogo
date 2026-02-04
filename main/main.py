@@ -1,3 +1,5 @@
+import random
+
 import pygame
 
 from pygame.locals import *
@@ -13,9 +15,13 @@ pygame.init()
 largura=800
 altura=600
 
-#dados do cubo
+#dados das notas
 x_verde=240
-y_verde=0
+y_notas=0
+lista_y=[]
+for c in range(-50,0):
+    lista_y.append(c)
+y_random=random.choice(lista_y)
 
 #fonte das mensagens
 fonte=pygame.font.SysFont('comicsans', 30)
@@ -109,9 +115,10 @@ while estado=='menu_principal':
 
 
             #Notas e setas
-            nota = pygame.draw.rect(janela, (0, 255, 0), (x_verde, y_verde, 40, 40))
+            nota_verde = pygame.draw.rect(janela, (0, 255, 0), (x_verde, y_notas, 40, 40))
+            nota_vermelha=pygame.draw.rect(janela, (255, 0, 0), (x_verde + 60, y_random, 40, 40))
             seta_verde = pygame.draw.rect(janela, (0, 255, 0), (x_verde, 540, 40, 40))
-            
+            seta_vermelha= pygame.draw.rect(janela, (255, 0, 0), (x_verde+60, 540, 40, 40))
 
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -119,19 +126,20 @@ while estado=='menu_principal':
                     exit()
                 if event.type == KEYDOWN:
                     if event.key == K_w:
-                        if nota.colliderect(seta_verde):
+                        if nota_verde.colliderect(seta_verde):
                             barulho_acerto.play()
                             pontuacao += 1
-                            y_verde=0
-                            y_verde-=proxima_aparicao
+                            y_notas=0
+                            y_notas-=proxima_aparicao
                         else:
                             pontuacao -= 1
-                            y_verde = 0 - proxima_aparicao
+                            y_notas = 0 - proxima_aparicao
 
 
-            y_verde+=1
-            if y_verde>=600:
-                y_verde=0
+            y_notas+=1
+            y_random += 1
+            if y_notas>=600:
+                y_notas=0
                 pontuacao-=1
 
             janela.blit(texto, (600, 20))
