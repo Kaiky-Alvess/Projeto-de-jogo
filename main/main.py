@@ -1,5 +1,5 @@
 import random
-
+from Notas.Classe import *
 import pygame
 
 from pygame.locals import *
@@ -115,7 +115,8 @@ while estado=='menu_principal':
 
 
             #Notas e setas
-            nota_verde = pygame.draw.rect(janela, (0, 255, 0), (x_verde, y_notas, 40, 40))
+            nota_verde =Notas(janela, 0, 255, 0, (x_verde, y_notas, 40, 40))
+            nota_verde.criar_obj()
             nota_vermelha=pygame.draw.rect(janela, (255, 0, 0), (x_verde + 60, y_random, 40, 40))
             seta_verde = pygame.draw.rect(janela, (0, 255, 0), (x_verde, 540, 40, 40))
             seta_vermelha= pygame.draw.rect(janela, (255, 0, 0), (x_verde+60, 540, 40, 40))
