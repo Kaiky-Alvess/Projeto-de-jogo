@@ -115,8 +115,7 @@ while estado=='menu_principal':
 
 
             #Notas e setas
-            nota_verde =Notas(janela, 0, 255, 0, (x_verde, y_notas, 40, 40))
-            nota_verde.criar_obj()
+            nota_verde =pygame.draw.rect(janela, (0, 255,0), (x_verde, y_notas, 40, 40))
             nota_vermelha=pygame.draw.rect(janela, (255, 0, 0), (x_verde + 60, y_random, 40, 40))
             seta_verde = pygame.draw.rect(janela, (0, 255, 0), (x_verde, 540, 40, 40))
             seta_vermelha= pygame.draw.rect(janela, (255, 0, 0), (x_verde+60, 540, 40, 40))
@@ -135,7 +134,15 @@ while estado=='menu_principal':
                         else:
                             pontuacao -= 1
                             y_notas = 0 - proxima_aparicao
-
+                    if event.key == K_e:
+                        if nota_vermelha.colliderect(seta_vermelha):
+                            barulho_acerto.play()
+                            pontuacao += 1
+                            y_random = 0
+                            y_random-=proxima_aparicao
+                        else:
+                            pontuacao -= 1
+                            y_random = 0 - proxima_aparicao
 
             y_notas+=1
             y_random += 1
