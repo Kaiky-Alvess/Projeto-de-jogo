@@ -1,4 +1,5 @@
 import pygame
+
 class Notas:
     def __init__(self,janela,r,g,b,tamanho=() ):
         self.r=r
@@ -8,5 +9,8 @@ class Notas:
         self.janela=janela
     def criar_obj(self):
         self.nota=pygame.draw.rect(self.janela, (self.r,self.g, self.b), (self.tamanho))
-        self.nota.colliderect()
-Nota_verde=Notas('Verde', 0, 255, 0, (50, 60, 40, 40))
+        self.colisor=pygame.Rect(self.tamanho)
+janela=pygame.display.set_mode((800,600))
+Nota_verde=Notas(janela,0,255,255,(0,0,40,40))
+Nota_verde.criar_obj()
+
