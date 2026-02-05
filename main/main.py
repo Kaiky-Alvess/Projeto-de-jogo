@@ -1,5 +1,5 @@
 import random
-from Notas.Classe import *
+from Classes.classe import *
 import pygame
 
 from pygame.locals import *
@@ -38,7 +38,7 @@ relogio=pygame.time.Clock()
 #Estado em que se encontra o jogo menu/play/fim de jogo
 estado= 'menu_principal'
 
-#Notas e setas
+#Classes e setas
 nota_verde = Notas(janela, 0, 255, 0, 1, [240, 0], (40, 40))
 seta_verde = Setas(janela, 0, 255, 0, [240, 540], (40, 40))
 
@@ -118,18 +118,19 @@ while estado=='menu_principal':
             texto= fonte.render(mensagem, True, (255,255,255), (0,0,0))
 
 
-            #Notas e setas
-            nota_verde.criar_obj()
-            nota_vermelha.criar_obj()
-            nota_amarela.criar_obj()
+            #Classes e setas
+            nota_verde.cair()
+            nota_vermelha.cair()
+            nota_amarela.cair()
+
 
             nota_verde.atualizar()
             nota_vermelha.atualizar()
             nota_amarela.atualizar()
 
-            nota_verde.cair()
-            nota_vermelha.cair()
-            nota_amarela.cair()
+            nota_verde.criar_obj()
+            nota_vermelha.criar_obj()
+            nota_amarela.criar_obj()
 
             seta_verde.criar_obj()
             seta_vermelha.criar_obj()
