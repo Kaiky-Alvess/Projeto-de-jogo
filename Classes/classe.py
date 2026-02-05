@@ -16,17 +16,16 @@ class Notas():
 
     def cair(self):
         self.pos[1]+=self.velocidade
-        self.colisor = pygame.Rect(self.pos, self.tamanho)
         return self.pos
 
     def atualizar(self):
         if self.pos[1]>600:
             self.pos[1]=0
+        self.colisor = pygame.Rect(self.pos, self.tamanho)
 
     def colidir(self):
         if self.colisor.colliderect(240,540,40,40):
             self.pos[1]=0
-        self.colisor = pygame.Rect(self.pos, self.tamanho)
 
 class Setas():
     def __init__(self,janela,r,g,b,pos=[],tamanho=()):
@@ -37,7 +36,7 @@ class Setas():
         self.tamanho = tamanho
         self.janela = janela
         self.colisor = pygame.Rect(self.pos, self.tamanho)
-        
+
     def criar_obj(self):
         self.seta=pygame.draw.rect(self.janela, (self.r,self.g, self.b), (self.pos,self.tamanho))
 
