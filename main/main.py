@@ -126,8 +126,8 @@ while estado=='menu_principal':
                     pygame.quit()
                     exit()
                 if event.type == KEYDOWN:
-                    for nota in gerenciador.notas:
-                        if event.key == K_w:
+                    if event.key == K_w:
+                        for nota in gerenciador.notas:
                             if nota.pos[0]==240:
                                 verde_mais_perto=nota
                                 if verde_mais_perto is None or nota.pos[1] >verde_mais_perto.pos[1]:
@@ -137,10 +137,12 @@ while estado=='menu_principal':
                                     verde_mais_perto.atualizar()
                                     barulho_acerto.play()
                                     pontuacao += 1
-                                else:
-                                    pontuacao -= 1
+                                    break
+                        else:
+                            pontuacao -= 1
 
-                        if event.key == K_e:
+                    if event.key == K_e:
+                        for nota in gerenciador.notas:
                             if nota.pos[0]==320:
                                 vermelho_mais_perto=nota
                                 if vermelho_mais_perto is None or nota.pos[1] >vermelho_mais_perto.pos[1]:
@@ -150,10 +152,12 @@ while estado=='menu_principal':
                                     vermelho_mais_perto.atualizar()
                                     barulho_acerto.play()
                                     pontuacao += 1
-                                else:
-                                    pontuacao -= 1
+                                    break
+                        else:
+                            pontuacao -= 1
 
-                        if event.key == K_r:
+                    if event.key == K_r:
+                        for nota in gerenciador.notas:
                             if nota.pos[0]==400:
                                 amarelo_mais_perto=nota
                                 if amarelo_mais_perto is None or nota.pos[1] >amarelo_mais_perto.pos[1]:
@@ -163,9 +167,9 @@ while estado=='menu_principal':
                                     amarelo_mais_perto.atualizar()
                                     barulho_acerto.play()
                                     pontuacao += 1
-                                else:
-                                    pontuacao -= 1
-                            
+                        else:
+                            pontuacao -= 1
+
 
 
             janela.blit(texto, (600, 20))
