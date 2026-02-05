@@ -39,6 +39,7 @@ relogio=pygame.time.Clock()
 estado= 'menu_principal'
 
 #Classes e setas
+
 nota_verde = Notas(janela, 0, 255, 0, 1, [240, 0], (40, 40))
 seta_verde = Setas(janela, 0, 255, 0, [240, 540], (40, 40))
 
