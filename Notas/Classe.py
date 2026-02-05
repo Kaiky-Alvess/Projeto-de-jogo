@@ -21,8 +21,8 @@ class Notas():
 
     def colidir(self):
         if self.colisor.colliderect(240,540,40,40):
-            print('a')
-
+            self.pos[1]=0
+        self.colisor = pygame.Rect(self.pos, self.tamanho)
 
 class Setas():
     def __init__(self,janela,r,g,b,pos=[],tamanho=()):
@@ -32,26 +32,7 @@ class Setas():
         self.pos = pos
         self.tamanho = tamanho
         self.janela = janela
+        self.colisor = pygame.Rect(self.pos, self.tamanho)
     def criar_obj(self):
         self.seta=pygame.draw.rect(self.janela, (self.r,self.g, self.b), (self.pos,self.tamanho))
 
-janela=pygame.display.set_mode((800,600))
-Nota_verde=Notas(janela,0,255,0,1,[240,0],(40,40))
-seta_verde=Setas(janela,0,255,0,[240,540],(40,40))
-
-while True:
-    janela.fill((0,0,0))
-    relogio=pygame.time.Clock()
-    relogio.tick(240)
-    Nota_verde.criar_obj()
-    seta_verde.criar_obj()
-    Nota_verde.cair()
-    Nota_verde.atualizar()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_w:
-                Nota_verde.colidir()
-                Nota_verde.atualizar()
-    pygame.display.update()

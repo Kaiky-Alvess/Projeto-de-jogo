@@ -15,13 +15,7 @@ pygame.init()
 largura=800
 altura=600
 
-#dados das notas
-x_verde=240
-y_notas=0
-lista_y=[]
-for c in range(-50,0):
-    lista_y.append(c)
-y_random=random.choice(lista_y)
+
 
 #fonte das mensagens
 fonte=pygame.font.SysFont('comicsans', 30)
@@ -43,6 +37,13 @@ relogio=pygame.time.Clock()
 
 #Estado em que se encontra o jogo menu/play/fim de jogo
 estado= 'menu_principal'
+
+#Notas e setas
+nota_verde = Notas(janela, 0, 255, 0, 1, [240, 0], (40, 40))
+seta_verde = Setas(janela, 0, 255, 0, [240, 540], (40, 40))
+
+nota_vermelha=Notas(janela, 255, 0, 0, 1,[320, 540], (40, 40))
+seta_vermelha=Setas(janela, 255, 0, 0, [320, 540], (40, 40))
 
 #Loop principal
 while estado=='menu_principal':
@@ -115,40 +116,42 @@ while estado=='menu_principal':
 
 
             #Notas e setas
-            nota_verde =pygame.draw.rect(janela, (0, 255,0), (x_verde, y_notas, 40, 40))
-            nota_vermelha=pygame.draw.rect(janela, (255, 0, 0), (x_verde + 60, y_random, 40, 40))
-            seta_verde = pygame.draw.rect(janela, (0, 255, 0), (x_verde, 540, 40, 40))
-            seta_vermelha= pygame.draw.rect(janela, (255, 0, 0), (x_verde+60, 540, 40, 40))
+            nota_verde.criar_obj()
+            nota_vermelha.criar_obj()
 
+            nota_verde.atualizar()
+            nota_vermelha.atualizar()
+            nota_verde.cair()
+            nota_vermelha.cair()
+            seta_verde.criar_obj()
+            seta_vermelha.criar_obj()
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
                     exit()
                 if event.type == KEYDOWN:
                     if event.key == K_w:
-                        if nota_verde.colliderect(seta_verde):
+                        if nota_verde.colisor.colliderect(seta_verde.colisor):
+                            nota_verde.colidir()
+                            nota_verde.atualizar()
                             barulho_acerto.play()
                             pontuacao += 1
-                            y_notas=0
-                            y_notas-=proxima_aparicao
                         else:
                             pontuacao -= 1
-                            y_notas = 0 - proxima_aparicao
+                            nota_verde.pos[1]=600
+                            nota_verde.atualizar()
                     if event.key == K_e:
-                        if nota_vermelha.colliderect(seta_vermelha):
+                        if nota_vermelha.colisor.colliderect(seta_vermelha.colisor):
+                            nota_vermelha.colidir()
+                            nota_vermelha.atualizar()
                             barulho_acerto.play()
                             pontuacao += 1
-                            y_random = 0
-                            y_random-=proxima_aparicao
                         else:
                             pontuacao -= 1
-                            y_random = 0 - proxima_aparicao
+                            nota_vermelha.pos[1] = 600
+                            nota_vermelha.atualizar()
 
-            y_notas+=1
-            y_random += 1
-            if y_notas>=600:
-                y_notas=0
-                pontuacao-=1
+
 
             janela.blit(texto, (600, 20))
 
