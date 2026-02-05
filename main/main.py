@@ -42,8 +42,11 @@ estado= 'menu_principal'
 nota_verde = Notas(janela, 0, 255, 0, 1, [240, 0], (40, 40))
 seta_verde = Setas(janela, 0, 255, 0, [240, 540], (40, 40))
 
-nota_vermelha=Notas(janela, 255, 0, 0, 1,[320, 540], (40, 40))
+nota_vermelha=Notas(janela, 255, 0, 0, 1,[320, 0], (40, 40))
 seta_vermelha=Setas(janela, 255, 0, 0, [320, 540], (40, 40))
+
+nota_amarela=Notas(janela,255,255,0,1,[400,0], (40, 40))
+seta_amarela=Setas(janela,255,255,0,[400,540], (40, 40))
 
 #Loop principal
 while estado=='menu_principal':
@@ -118,13 +121,20 @@ while estado=='menu_principal':
             #Notas e setas
             nota_verde.criar_obj()
             nota_vermelha.criar_obj()
+            nota_amarela.criar_obj()
 
             nota_verde.atualizar()
             nota_vermelha.atualizar()
+            nota_amarela.atualizar()
+
             nota_verde.cair()
             nota_vermelha.cair()
+            nota_amarela.cair()
+
             seta_verde.criar_obj()
             seta_vermelha.criar_obj()
+            seta_amarela.criar_obj()
+
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
@@ -150,7 +160,16 @@ while estado=='menu_principal':
                             pontuacao -= 1
                             nota_vermelha.pos[1] = 600
                             nota_vermelha.atualizar()
-
+                    if event.key == K_r:
+                        if nota_amarela.colisor.colliderect(seta_amarela.colisor):
+                            nota_amarela.colidir()
+                            nota_amarela.atualizar()
+                            barulho_acerto.play()
+                            pontuacao += 1
+                        else:
+                            pontuacao -= 1
+                            nota_amarela.pos[1] = 600
+                            nota_amarela.atualizar()
 
 
             janela.blit(texto, (600, 20))
