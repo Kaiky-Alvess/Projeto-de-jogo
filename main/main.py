@@ -1,7 +1,7 @@
 import random
 from Classes.classe import *
 import pygame
-
+from Classes.spawnner import *
 from pygame.locals import *
 from sys import exit
 from random import randint
@@ -15,7 +15,9 @@ pygame.init()
 largura=800
 altura=600
 
-
+seta_verde=Setas(janela,0,255,0,[240,540],(40,40))
+seta_vermelha=Setas(janela,255,0,0,[320,540],(40,40))
+seta_amarela=Setas(janela,255,255,0,[400,540],(40,40))
 
 #fonte das mensagens
 fonte=pygame.font.SysFont('comicsans', 30)
@@ -26,7 +28,7 @@ pontuacao=0
 
 
 #Geração de peças infinitas
-proxima_aparicao=randint(10,50)
+
 
 #Janela
 pygame.display.set_caption("Jogo")
@@ -37,17 +39,6 @@ relogio=pygame.time.Clock()
 
 #Estado em que se encontra o jogo menu/play/fim de jogo
 estado= 'menu_principal'
-
-#Classes e setas
-
-nota_verde = Notas(janela, 0, 255, 0, 1, [240, 0], (40, 40))
-seta_verde = Setas(janela, 0, 255, 0, [240, 540], (40, 40))
-
-nota_vermelha=Notas(janela, 255, 0, 0, 1,[320, 0], (40, 40))
-seta_vermelha=Setas(janela, 255, 0, 0, [320, 540], (40, 40))
-
-nota_amarela=Notas(janela,255,255,0,1,[400,0], (40, 40))
-seta_amarela=Setas(janela,255,255,0,[400,540], (40, 40))
 
 #Loop principal
 while estado=='menu_principal':
@@ -110,28 +101,21 @@ while estado=='menu_principal':
             #limpar a tela
             janela.fill((0,0,0))
 
+            for i, nota in enumerate(gerenciador.notas):
+                gerenciador.notas[i].atualizar()
+                gerenciador.notas[i].cair()
+                gerenciador.notas[i].criar_obj()
+            gerenciador.atualizar()
+            gerenciador.excluir()
+
             #fps
             relogio.tick(240)
-
+            gerenciador.tempo_spawn += 1
             #Texto de pontuação
             mensagem= f'Pontos: {pontuacao}'
 
             texto= fonte.render(mensagem, True, (255,255,255), (0,0,0))
 
-
-            #Classes e setas
-            nota_verde.cair()
-            nota_vermelha.cair()
-            nota_amarela.cair()
-
-
-            nota_verde.atualizar()
-            nota_vermelha.atualizar()
-            nota_amarela.atualizar()
-
-            nota_verde.criar_obj()
-            nota_vermelha.criar_obj()
-            nota_amarela.criar_obj()
 
             seta_verde.criar_obj()
             seta_vermelha.criar_obj()
@@ -142,36 +126,46 @@ while estado=='menu_principal':
                     pygame.quit()
                     exit()
                 if event.type == KEYDOWN:
-                    if event.key == K_w:
-                        if nota_verde.colisor.colliderect(seta_verde.colisor):
-                            nota_verde.colidir()
-                            nota_verde.atualizar()
-                            barulho_acerto.play()
-                            pontuacao += 1
-                        else:
-                            pontuacao -= 1
-                            nota_verde.pos[1]=600
-                            nota_verde.atualizar()
-                    if event.key == K_e:
-                        if nota_vermelha.colisor.colliderect(seta_vermelha.colisor):
-                            nota_vermelha.colidir()
-                            nota_vermelha.atualizar()
-                            barulho_acerto.play()
-                            pontuacao += 1
-                        else:
-                            pontuacao -= 1
-                            nota_vermelha.pos[1] = 600
-                            nota_vermelha.atualizar()
-                    if event.key == K_r:
-                        if nota_amarela.colisor.colliderect(seta_amarela.colisor):
-                            nota_amarela.colidir()
-                            nota_amarela.atualizar()
-                            barulho_acerto.play()
-                            pontuacao += 1
-                        else:
-                            pontuacao -= 1
-                            nota_amarela.pos[1] = 600
-                            nota_amarela.atualizar()
+                    for nota in gerenciador.notas:
+                        if event.key == K_w:
+                            if nota.pos[0]==240:
+                                verde_mais_perto=nota
+                                if verde_mais_perto is None or nota.pos[1] >verde_mais_perto.pos[1]:
+                                    verde_mais_perto=nota
+                                if verde_mais_perto.colisor.colliderect(seta_verde.colisor):
+                                    verde_mais_perto.colidir()
+                                    verde_mais_perto.atualizar()
+                                    barulho_acerto.play()
+                                    pontuacao += 1
+                                else:
+                                    pontuacao -= 1
+
+                        if event.key == K_e:
+                            if nota.pos[0]==320:
+                                vermelho_mais_perto=nota
+                                if vermelho_mais_perto is None or nota.pos[1] >vermelho_mais_perto.pos[1]:
+                                    vermelho_mais_perto=nota
+                                if vermelho_mais_perto.colisor.colliderect(seta_vermelha.colisor):
+                                    vermelho_mais_perto.colidir()
+                                    vermelho_mais_perto.atualizar()
+                                    barulho_acerto.play()
+                                    pontuacao += 1
+                                else:
+                                    pontuacao -= 1
+
+                        if event.key == K_r:
+                            if nota.pos[0]==400:
+                                amarelo_mais_perto=nota
+                                if amarelo_mais_perto is None or nota.pos[1] >amarelo_mais_perto.pos[1]:
+                                    amarelo_mais_perto=nota
+                                if amarelo_mais_perto.colisor.colliderect(seta_amarela.colisor):
+                                    amarelo_mais_perto.colidir()
+                                    amarelo_mais_perto.atualizar()
+                                    barulho_acerto.play()
+                                    pontuacao += 1
+                                else:
+                                    pontuacao -= 1
+                            
 
 
             janela.blit(texto, (600, 20))
