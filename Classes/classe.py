@@ -19,13 +19,11 @@ class Notas():
         return self.pos
 
     def atualizar(self):
-        if self.pos[1]>600:
-            self.pos[1]=0
         self.colisor = pygame.Rect(self.pos, self.tamanho)
 
     def colidir(self):
         if self.colisor.colliderect(240,540,40,40):
-            self.pos[1]=0
+            return
 
 class Setas():
     def __init__(self,janela,r,g,b,pos=[],tamanho=()):
