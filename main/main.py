@@ -1,6 +1,7 @@
 import random
 from Classes.classe import *
 import pygame
+from Imgs import *
 from Classes.spawnner import *
 from pygame.locals import *
 from sys import exit
@@ -10,10 +11,12 @@ from pygame.sprite import collide_rect
 
 pygame.init()
 
-
 #proporção da tela
 largura=800
 altura=600
+
+fundo=pygame.image.load('../Imgs/Rockeiros.png')
+fundo = pygame.transform.scale(fundo,(largura,altura))
 
 seta_verde=Setas(janela,0,255,0,[240,540],(40,40))
 seta_vermelha=Setas(janela,255,0,0,[320,540],(40,40))
@@ -43,7 +46,7 @@ estado= 'menu_principal'
 #Loop principal
 while estado=='menu_principal':
     #preencimento da tela
-    janela.fill((0,0,0))
+    janela.blit(fundo,(0,0))
 
     #frames por segundo
     relogio.tick(240)
@@ -99,7 +102,7 @@ while estado=='menu_principal':
         #Enquanto estiver tocando a música
         while pygame.mixer.music.get_busy():
             #limpar a tela
-            janela.fill((0,0,0))
+            janela.blit(fundo,(0,0))
 
             for i, nota in enumerate(gerenciador.notas):
                 gerenciador.notas[i].atualizar()
@@ -181,7 +184,7 @@ while estado=='menu_principal':
     if estado=='fim_de_jogo':
         while estado=='fim_de_jogo':
             #Limpar a tela
-            janela.fill((0, 0, 0))
+            janela.blit(fundo,(0,0))
             relogio.tick(240)
             #Textos de pontuação e fim de jogo
             mensagem= f'Pontuação final: {pontuacao}'
