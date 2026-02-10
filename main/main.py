@@ -43,8 +43,9 @@ janela=pygame.display.set_mode((largura,altura))
 relogio=pygame.time.Clock()
 
 #Estado em que se encontra o jogo menu/play/fim de jogo
-
 estado= 'menu_principal'
+
+musica_atual=''
 pygame.mixer.music.set_volume(0.1)
 pygame.mixer.music.load('../sons/menu-music.mp3')
 pygame.mixer.music.play(-1)
