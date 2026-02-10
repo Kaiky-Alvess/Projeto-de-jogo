@@ -37,12 +37,17 @@ pontuacao=0
 pygame.display.set_caption("Jogo")
 janela=pygame.display.set_mode((largura,altura))
 
+
+
 #Variavel que receberá os fps do jogo
 relogio=pygame.time.Clock()
 
 #Estado em que se encontra o jogo menu/play/fim de jogo
-estado= 'menu_principal'
 
+estado= 'menu_principal'
+pygame.mixer.music.set_volume(0.1)
+pygame.mixer.music.load('../sons/menu-music.mp3')
+pygame.mixer.music.play(-1)
 #Loop principal
 while estado=='menu_principal':
     #preencimento da tela
@@ -94,7 +99,6 @@ while estado=='menu_principal':
 
     #Loop da música
     if estado=='play':
-        pygame.mixer.music.set_volume(0.1)
         pygame.mixer.music.load('../sons/Thunderstruck.mp3')
         pygame.mixer.music.play()
         barulho_acerto= pygame.mixer.Sound('../sons/coin.wav')
