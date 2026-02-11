@@ -15,12 +15,19 @@ pygame.init()
 largura=800
 altura=600
 
+janela=pygame.display.set_mode((largura,altura))
+gerenciador=Gerenciador(janela)
+gerenciador.criar_notas(janela,0,255,0,1,(40,40))
+
 fundo=pygame.image.load('../Imgs/Rockeiros.png')
 fundo = pygame.transform.scale(fundo,(largura,altura))
+
+
 
 seta_verde=Setas(janela,0,255,0,[240,540],(40,40))
 seta_vermelha=Setas(janela,255,0,0,[320,540],(40,40))
 seta_amarela=Setas(janela,255,255,0,[400,540],(40,40))
+seta_azul=Setas(janela,0,255,255,[480,540],(40,40))
 
 #fonte das mensagens
 fonte=pygame.font.SysFont('comicsans', 30)
@@ -35,7 +42,7 @@ pontuacao=0
 
 #Janela
 pygame.display.set_caption("Jogo")
-janela=pygame.display.set_mode((largura,altura))
+
 
 
 
@@ -128,13 +135,14 @@ while estado=='menu_principal':
             seta_verde.criar_obj()
             seta_vermelha.criar_obj()
             seta_amarela.criar_obj()
+            seta_azul.criar_obj()
 
             for event in pygame.event.get():
                 if event.type == QUIT:
                     pygame.quit()
                     exit()
                 if event.type == KEYDOWN:
-                    if event.key == K_w:
+                    if event.key == K_a:
                         for nota in gerenciador.notas:
                             if nota.pos[0]==240:
                                 verde_mais_perto=nota
@@ -149,7 +157,7 @@ while estado=='menu_principal':
                         else:
                             pontuacao -= 1
 
-                    if event.key == K_e:
+                    if event.key == K_w:
                         for nota in gerenciador.notas:
                             if nota.pos[0]==320:
                                 vermelho_mais_perto=nota
@@ -164,7 +172,7 @@ while estado=='menu_principal':
                         else:
                             pontuacao -= 1
 
-                    if event.key == K_r:
+                    if event.key == K_s:
                         for nota in gerenciador.notas:
                             if nota.pos[0]==400:
                                 amarelo_mais_perto=nota
@@ -178,6 +186,18 @@ while estado=='menu_principal':
                         else:
                             pontuacao -= 1
 
+                    if event.key == K_d:
+                        for nota in gerenciador.notas:
+                            if nota.pos[0]==480:
+                                azul_mais_perto=nota
+                                if azul_mais_perto is None or nota.pos[1] >azul_mais_perto.pos[1]:
+                                    azul_mais_perto=nota
+                                if azul_mais_perto.colisor.colliderect(seta_azul.colisor):
+                                    azul_mais_perto.colidir()
+                                    azul_mais_perto.atualizar()
+                                    barulho_acerto.play()
+                                    pontuacao += 1
+                                    break
 
 
             janela.blit(texto, (600, 20))
