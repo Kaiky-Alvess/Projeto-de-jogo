@@ -1,22 +1,22 @@
 import pygame
 
 nota_d=pygame.image.load('../Imgs/D_azul.png')
-nota_d=pygame.transform.scale(nota_d,(40,40))
+nota_d=pygame.transform.scale(nota_d,(70,70))
 nota_s=pygame.image.load('../Imgs/S_amarelo.png')
-nota_s=pygame.transform.scale(nota_s,(40,40))
+nota_s=pygame.transform.scale(nota_s,(70,70))
 nota_w=pygame.image.load('../Imgs/W_vermelho.png')
-nota_w=pygame.transform.scale(nota_w,(40,40))
+nota_w=pygame.transform.scale(nota_w,(70,70))
 nota_a=pygame.image.load('../Imgs/A_verde.png')
-nota_a=pygame.transform.scale(nota_a,(40,40))
+nota_a=pygame.transform.scale(nota_a,(70,70))
 
 seta_w=pygame.image.load('../Imgs/W_cinza.png')
-seta_w=pygame.transform.scale(seta_w,(40,40))
+seta_w=pygame.transform.scale(seta_w,(70,70))
 seta_d=pygame.image.load('../Imgs/D_cinza.png')
-seta_d=pygame.transform.scale(seta_d,(40,40))
+seta_d=pygame.transform.scale(seta_d,(70,70))
 seta_s=pygame.image.load('../Imgs/S_cinza.png')
-seta_s=pygame.transform.scale(seta_s,(40,40))
+seta_s=pygame.transform.scale(seta_s,(70,70))
 seta_a=pygame.image.load('../Imgs/A_cinza.png')
-seta_a=pygame.transform.scale(seta_a,(40,40))
+seta_a=pygame.transform.scale(seta_a,(70,70))
 
 class Notas():
     def __init__(self,janela,r,g,b,velocidade,pos=[],tamanho=()):
