@@ -38,7 +38,7 @@ fonte=pygame.font.SysFont('comicsans', 30)
 pontuacao=0
 linha_acerto = 540
 janela_acerto = 40
-
+combo=0
 
 
 #Geração de peças infinitas
@@ -160,7 +160,7 @@ while estado=='menu_principal':
                     pygame.quit()
                     exit()
                 if event.type == KEYDOWN:
-                    if event.key == K_a:
+                    if event.key == K_a or event.key==K_LEFT:
                         nota_certa = None
                         for nota in gerenciador.notas:
                             if nota.pos[0] == 240:
@@ -169,13 +169,15 @@ while estado=='menu_principal':
                                     nota_certa = nota
                                     break
                         if nota_certa:
-                            pontuacao += 1
+                            combo+=1
+                            pontuacao = pontuacao + 1 * combo
                             barulho_acerto.play()
                             gerenciador.notas.remove(nota_certa)
                         else:
+                            combo=0
                             pontuacao -= 1
 
-                    if event.key == K_w:
+                    if event.key == K_w or event.key==K_UP:
                         nota_certa = None
                         for nota in gerenciador.notas:
                             if nota.pos[0] ==320:
@@ -184,13 +186,15 @@ while estado=='menu_principal':
                                     nota_certa = nota
                                     break
                         if nota_certa:
-                            pontuacao += 1
+                            combo+=1
+                            pontuacao = pontuacao + 1 * combo
                             barulho_acerto.play()
                             gerenciador.notas.remove(nota_certa)
                         else:
+                            combo=0
                             pontuacao -= 1
 
-                    if event.key == K_s:
+                    if event.key == K_s or event.key==K_DOWN:
                         nota_certa = None
                         for nota in gerenciador.notas:
                             if nota.pos[0] == 400:
@@ -199,14 +203,16 @@ while estado=='menu_principal':
                                     nota_certa = nota
                                     break
                         if nota_certa:
-                            pontuacao += 1
+                            combo += 1
+                            pontuacao = pontuacao + 1 * combo
                             barulho_acerto.play()
                             gerenciador.notas.remove(nota_certa)
                         else:
+                            combo=0
                             pontuacao -= 1
 
 
-                    if event.key == K_d:
+                    if event.key == K_d or event.key==K_RIGHT:
                         nota_certa = None
                         for nota in gerenciador.notas:
                             if nota.pos[0] == 480:
@@ -215,11 +221,14 @@ while estado=='menu_principal':
                                     nota_certa = nota
                                     break
                         if nota_certa:
-                            pontuacao += 1
+                            combo += 1
+                            pontuacao = pontuacao + 1 * combo
                             barulho_acerto.play()
                             gerenciador.notas.remove(nota_certa)
                         else:
+                            combo=0
                             pontuacao -= 1
+
             for nota in gerenciador.notas[:]:
                 if nota.pos[1]>= 600:
                     pontuacao -= 1
