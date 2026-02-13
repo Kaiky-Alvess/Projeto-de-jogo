@@ -47,7 +47,7 @@ class Notas():
         self.colisor = pygame.Rect(self.pos, self.tamanho)
 
     def colidir(self):
-        if self.colisor.colliderect(240,540,40,40):
+        if self.colisor.colliderect(self.pos[0],540,40,40):
             return
 
 class Setas():
